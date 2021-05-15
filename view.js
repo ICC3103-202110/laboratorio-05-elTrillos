@@ -3,7 +3,7 @@ const chalk = require('chalk')
 const inquirer = require('inquirer')
 
 function getTitle(){
-    return chalk.green(
+    return chalk.red(
         figlet.textSync(
             'Tip Calculator App',
             {
@@ -15,44 +15,45 @@ function getTitle(){
 }
 
 function getTable(model){
-    const {counter} = model
+    const {Price} = model
+    const {Tipp} = model
+    const {Tip} = model
+    const {Total} = model
     return [
-        {Counter: counter},
+        {"Bill Amount": Price},{"Tip (%)": Tipp},{"Tip": Tip},{"Total": Total},
+        
     ]
 }
 
 function inputForm(model){
-    const {input} = model
-    const message = 'Bill ammount?'
+    const {Price} = model
+    const {Tipp} = model
+    const mes1 = 'Bill ammount?'
+    const mes2 = 'Tip %?'
     return inquirer.prompt([
         {
-            name: 'input',
+            name: 'Price',
             type: 'input',
-            message: message,
-            default: input,
+            message: mes1,
+            default: Price,
             validate: function(value){
-                if(value === '+' || value === '-'){
-                    return true
-                } else {
-                    return 'Enter + or -'
-                }
+            if (value >=0){return true}
+            else{return "Please insert a valid number"}
+            }
+        },{
+            name: 'Tipp',
+            type: 'input',
+            message: mes2,
+            default: Tipp,
+            validate: function(value){
+            if (0<= value && value<=100) {return true}
+            else{return "Please insert a valid %"}
             }
         }
     ])
 }
 
-function listForm(model){
-    const {input} = model
-    const message = 'Bill ammount?'
-    const choices = ['+', '-']
-    return inquirer.prompt({
-        name: 'input',
-        type: 'list',
-        message: message,
-        default: input,
-        choices: choices
-    })
-}
+
 
 // Get actual console view
 function view(model){
@@ -64,6 +65,5 @@ function view(model){
 
 module.exports = {
     view, 
-    inputForm,
-    listForm
+    inputForm
 }

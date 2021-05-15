@@ -11,8 +11,10 @@ async function app(state, update, view){
         console.log(title)
         printTable(table)
         // FORM (Ask user input)
-        const {input} = await listForm(model)
-        const updatedModel = update(input, model)
+        const input = await inputForm(model)
+        //console.log(input["Price"])
+        //console.log(input["Tipp"])
+        const updatedModel = update(input["Price"],input["Tipp"], model)
         state = {
             ...state,
             model: updatedModel,
