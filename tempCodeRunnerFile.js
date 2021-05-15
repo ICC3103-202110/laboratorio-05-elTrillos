@@ -1,0 +1,1 @@
+const {inputForm, listForm} = require('./view')
